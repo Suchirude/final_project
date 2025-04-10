@@ -1,12 +1,11 @@
 package company;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class CompanyController {
-    private static ArrayList<Component> _company = new ArrayList<>();
+    private static Component _company;
 
     private static final Scanner _inputScanner = new Scanner(System.in);
     private static final String _quitInput = "Q";
@@ -19,23 +18,23 @@ public class CompanyController {
 
     public static void main(String[] args) {
         var isRunning = true;
-        setupCompany();
 
-        System.out.println("Organization management system");
-        System.out.println("------------------------------\n");
 
         while(isRunning){
+
+            Printer.printLine("");
+            Printer.printLine("Organization management system");
+            Printer.printLine("------------------------------\n");
+
             printOptions();
 
-            System.out.print("Your choice: ");
+            Printer.print("Your choice: ");
             var input = _inputScanner.nextLine();
 
             if(input.equalsIgnoreCase(_quitInput)){
                 isRunning = false;
                 return;
             }
-
-            System.out.println();
 
             if(!_inputActions.containsKey(input)) return;
             _inputActions.get(input).invoke();
@@ -44,19 +43,8 @@ public class CompanyController {
 
     }
 
-    private static void setupCompany(){
-        var worker1 = new Worker("Susanna");
-
-        var group1 = new Group("the cool group", "Lasse");
-
-        group1.Add(worker1);
-
-        _company.add(worker1);
-        _company.add(group1);
-    }
-
     private static void printOptions(){
-        System.out.print(
+        Printer.print(
                 """
                 1. Create and print hard coded organization
                 2. Print organization, add person to it and finally print it
@@ -67,14 +55,55 @@ public class CompanyController {
     }
 
     private static void createAndPrintCompany() {
-        System.out.println("Choice 1 not implemented");
+        setupCompany();
+        printCompany();
     }
 
     private static void printAddAndPrintCompany() {
-        System.out.println("Choice 2 not implemented");
+        Printer.printLine("Choice 2 not implemented");
     }
 
     private static void printRemoveAndPrintCompany() {
-        System.out.println("Choice 3 not implemented");
+        Printer.printLine("Choice 3 not implemented");
+    }
+
+    private static void setupCompany(){
+        var secretaryGrandma = new Worker("Grandma Duck");
+        secretaryGrandma.setRole("secretary");
+        var workerGus = new Worker("Gus Goose");
+        var workerHuey = new Worker("Huey Duck");
+        var workerDewey = new Worker("Dewey Duck");
+        var workerLouie = new Worker("Louie Duck");
+        var workerGyro = new Worker("Gyro Gearloose");
+        var workerMagica = new Worker("Magica De Spell");
+        var workerLaunchpad = new Worker("Launchpad McQuack");
+
+        var managementGroup = new Group("Top management", "Scrooge McDuck");
+        managementGroup.Add(secretaryGrandma);
+
+        var marketingGroup = new Group("Marketing", "Donald Duck");
+        marketingGroup.Add(workerGus);
+
+        var softwareGroup = new Group("Software Development", "Daisy Duck");
+        softwareGroup.Add(workerHuey);
+        softwareGroup.Add(workerDewey);
+        softwareGroup.Add(workerLouie);
+
+        var cutomerGroup = new Group("Customer Support", "Gladstone Gander");
+        cutomerGroup.Add(workerGyro);
+        cutomerGroup.Add(workerMagica);
+        cutomerGroup.Add(workerLaunchpad);
+
+        managementGroup.Add(marketingGroup);
+        managementGroup.Add(softwareGroup);
+        managementGroup.Add(cutomerGroup);
+
+        _company = managementGroup;
+
+    }
+    private static void printCompany(){
+        if(_company == null) return;
+
+        _company.show();
     }
 }
