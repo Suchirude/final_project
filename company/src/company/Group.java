@@ -1,6 +1,7 @@
 package company;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Group implements Component{
     private final String _groupName;
@@ -16,8 +17,40 @@ public class Group implements Component{
         return _groupName;
     }
 
+    public boolean hasWorker(Worker worker){
+        var workerName = worker.getName();
+        for (int i = 0; i < _components.size(); i++) {
+            if(_components.get(i).getClass() == Group.class){
+                continue;
+            }
+            var selectedWorker = (Worker)_components.get(i);
+            if(Objects.equals(selectedWorker.getName(), workerName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void Add(Component component){
         _components.add(component);
+    }
+    public void removeWorker(Worker worker){
+        var workerName = worker.getName();
+        var workerToRemove = new Worker("");
+
+        for (int i = 0; i < _components.size(); i++) {
+            if(_components.get(i).getClass() == Group.class){
+                continue;
+            }
+            var selectedWorker = (Worker)_components.get(i);
+            if(Objects.equals(selectedWorker.getName(), workerName)){
+                workerToRemove = selectedWorker;
+                break;
+            }
+        }
+
+        _components.remove(workerToRemove);
+
     }
 
     @Override

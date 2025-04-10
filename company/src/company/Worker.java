@@ -9,6 +9,9 @@ public class Worker implements Component{
     public void setRole(String role){
         _role = role;
     }
+    public String getName(){
+        return _name;
+    }
     @Override
     public void show() {
         Printer.printWorker(_role != null ? "Worker: " + _name + " (" + _role + ")" : "Worker: " + _name, 2);

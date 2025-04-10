@@ -69,12 +69,19 @@ public class CompanyController {
         Printer.print("Give person name: ");
         var personName = _inputScanner.nextLine();
         addWorker(new Worker(personName), unitName);
-        
+
         printCompany();
     }
 
     private static void printRemoveAndPrintCompany() {
-        Printer.printLine("Choice 3 not implemented");
+        printCompany();
+        Printer.printLine("");
+
+        Printer.print("Give person name: ");
+        var personName = _inputScanner.nextLine();
+        removeWorker(new Worker(personName));
+
+        printCompany();
     }
 
     private static void setupCompany(){
@@ -121,6 +128,13 @@ public class CompanyController {
                 _groupList.get(i).Add(worker);
                 break;
             }
+        }
+    }
+    private static void removeWorker(Worker worker){
+        if(_groupList == null) return;
+        for (int i = 0; i < _groupList.size(); i++) {
+            var group = _groupList.get(i);
+            group.removeWorker(worker);
         }
     }
 
