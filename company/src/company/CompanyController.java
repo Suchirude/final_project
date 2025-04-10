@@ -79,6 +79,7 @@ public class CompanyController {
 
         if(!personName.matches("^[A-Z][a-z]*\\s[A-Z][a-z]*$")){
             invalidNameError();
+            return;
         }
 
         if(!addWorker(new Worker(personName), unitName)){
@@ -103,6 +104,7 @@ public class CompanyController {
 
         if(!personName.matches("^[A-Z][a-z]*\\s[A-Z][a-z]*$")){
             invalidNameError();
+            return;
         }
 
         if(!removeWorker(new Worker(personName))){
