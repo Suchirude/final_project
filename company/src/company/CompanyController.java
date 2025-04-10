@@ -1,6 +1,5 @@
 package company;
 
-import java.awt.color.ICC_ProfileGray;
 import java.util.*;
 
 public class CompanyController {
@@ -36,8 +35,12 @@ public class CompanyController {
                 return;
             }
 
-            if(!_inputActions.containsKey(input)) return;
-            _inputActions.get(input).invoke();
+            if(_inputActions.containsKey(input)){
+                _inputActions.get(input).invoke();
+            }
+            else{
+                wrongInputError();
+            }
         }
 
 
@@ -60,6 +63,11 @@ public class CompanyController {
     }
 
     private static void printAddAndPrintCompany() {
+        if(_company == null){
+            noOrganizationError();
+            return;
+        }
+
         printCompany();
 
         Printer.printLine("");
@@ -68,18 +76,39 @@ public class CompanyController {
         var unitName = _inputScanner.nextLine();
         Printer.print("Give person name: ");
         var personName = _inputScanner.nextLine();
-        addWorker(new Worker(personName), unitName);
+
+        if(!personName.matches("^[A-Z][a-z]*\\s[A-Z][a-z]*$")){
+            invalidNameError();
+        }
+
+        if(!addWorker(new Worker(personName), unitName)){
+            organizationNotFoundError();
+            return;
+        };
 
         printCompany();
     }
 
     private static void printRemoveAndPrintCompany() {
+        if(_company == null){
+            noOrganizationError();
+            return;
+        }
+
         printCompany();
         Printer.printLine("");
 
         Printer.print("Give person name: ");
         var personName = _inputScanner.nextLine();
-        removeWorker(new Worker(personName));
+
+        if(!personName.matches("^[A-Z][a-z]*\\s[A-Z][a-z]*$")){
+            invalidNameError();
+        }
+
+        if(!removeWorker(new Worker(personName))){
+            personNotFoundError();
+            return;
+        }
 
         printCompany();
     }
@@ -120,27 +149,47 @@ public class CompanyController {
 
     }
 
-    private static void addWorker(Worker worker, String unit){
-        if(_groupList == null) return;
+    private static boolean addWorker(Worker worker, String unit){
         for (int i = 0; i < _groupList.size(); i++) {
             var group = _groupList.get(i).getGroupName();
             if(Objects.equals(group, unit)){
                 _groupList.get(i).Add(worker);
-                break;
+                return true;
             }
         }
+        return false;
     }
-    private static void removeWorker(Worker worker){
-        if(_groupList == null) return;
+    private static boolean removeWorker(Worker worker){
         for (int i = 0; i < _groupList.size(); i++) {
             var group = _groupList.get(i);
-            group.removeWorker(worker);
+            if(group.remove(worker)){
+                return true;
+            }
         }
+        return false;
     }
 
     private static void printCompany(){
-        if(_company == null) return;
+        if(_company == null){
+            return;
+        }
 
         _company.show();
+    }
+
+    private static void wrongInputError(){
+        Printer.printLine("ERROR: Invalid input. Please enter " + "1, 2, 3, q or Q" + ".");
+    }
+    private static void noOrganizationError(){
+        Printer.printLine("ERROR: Organization is not created yet. Create it first in step 1.");
+    }
+    private static void organizationNotFoundError(){
+        Printer.printLine("ERROR: Organization not found. Give it again.");
+    }
+    private static void invalidNameError(){
+        Printer.printLine("ERROR: Invalid name. Please enter a valid name like John Smith.");
+    }
+    private static void personNotFoundError(){
+        Printer.printLine("ERROR: Person not found. Give it again.");
     }
 }

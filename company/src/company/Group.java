@@ -34,9 +34,10 @@ public class Group implements Component{
     public void Add(Component component){
         _components.add(component);
     }
-    public void removeWorker(Worker worker){
+    public boolean remove(Worker worker){
         var workerName = worker.getName();
         var workerToRemove = new Worker("");
+        var workerFound = false;
 
         for (int i = 0; i < _components.size(); i++) {
             if(_components.get(i).getClass() == Group.class){
@@ -45,12 +46,13 @@ public class Group implements Component{
             var selectedWorker = (Worker)_components.get(i);
             if(Objects.equals(selectedWorker.getName(), workerName)){
                 workerToRemove = selectedWorker;
+                workerFound = true;
                 break;
             }
         }
 
         _components.remove(workerToRemove);
-
+        return workerFound;
     }
 
     @Override
