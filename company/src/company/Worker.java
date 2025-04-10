@@ -1,7 +1,7 @@
 package company;
 
 public class Worker implements Component{
-    private String _name;
+    private final String _name;
     private String _role;
     public Worker(String name){
         _name = name;

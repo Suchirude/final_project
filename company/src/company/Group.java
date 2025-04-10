@@ -3,13 +3,17 @@ package company;
 import java.util.ArrayList;
 
 public class Group implements Component{
-    private String _groupName;
-    private String _bossName;
+    private final String _groupName;
+    private final String _bossName;
     private ArrayList<Component> _components = new ArrayList<>();
 
     public Group(String groupName, String bossName){
         _groupName = groupName;
         _bossName = bossName;
+    }
+
+    public String getGroupName(){
+        return _groupName;
     }
 
     public void Add(Component component){

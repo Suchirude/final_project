@@ -1,11 +1,11 @@
 package company;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.awt.color.ICC_ProfileGray;
+import java.util.*;
 
 public class CompanyController {
     private static Component _company;
+    private static List<Group> _groupList;
 
     private static final Scanner _inputScanner = new Scanner(System.in);
     private static final String _quitInput = "Q";
@@ -60,7 +60,17 @@ public class CompanyController {
     }
 
     private static void printAddAndPrintCompany() {
-        Printer.printLine("Choice 2 not implemented");
+        printCompany();
+
+        Printer.printLine("");
+
+        Printer.print("Give unit name: ");
+        var unitName = _inputScanner.nextLine();
+        Printer.print("Give person name: ");
+        var personName = _inputScanner.nextLine();
+        addWorker(new Worker(personName), unitName);
+        
+        printCompany();
     }
 
     private static void printRemoveAndPrintCompany() {
@@ -99,8 +109,21 @@ public class CompanyController {
         managementGroup.Add(cutomerGroup);
 
         _company = managementGroup;
+        _groupList = Arrays.asList(managementGroup, marketingGroup, softwareGroup, cutomerGroup);
 
     }
+
+    private static void addWorker(Worker worker, String unit){
+        if(_groupList == null) return;
+        for (int i = 0; i < _groupList.size(); i++) {
+            var group = _groupList.get(i).getGroupName();
+            if(Objects.equals(group, unit)){
+                _groupList.get(i).Add(worker);
+                break;
+            }
+        }
+    }
+
     private static void printCompany(){
         if(_company == null) return;
 
