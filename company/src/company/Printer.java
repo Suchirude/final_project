@@ -10,6 +10,9 @@ public class Printer {
     public static void addIndent(int value){
         _currentIndent += value;
     }
+    public static void setIndent(int value){
+        _currentIndent = value;
+    }
     public static void printLine(String message){
         System.out.println(message);
     }
@@ -19,6 +22,7 @@ public class Printer {
     public static void printWorker(String message, int addedIndent){
         System.out.println(" ".repeat(_currentIndent + addedIndent) + message);
     }
+
 }
 
 

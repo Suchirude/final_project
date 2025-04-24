@@ -176,6 +176,7 @@ public class CompanyController {
             return;
         }
 
+        Printer.setIndent(0);
         _company.show();
     }
 
