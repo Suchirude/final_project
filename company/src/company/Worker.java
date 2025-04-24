@@ -17,3 +17,5 @@ public class Worker implements Component{
         Printer.printWorker(_role != null ? "Worker: " + _name + " (" + _role + ")" : "Worker: " + _name, 2);
     }
 }
+
+
